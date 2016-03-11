@@ -5,10 +5,10 @@ package com.csc8570.remotecontrolclient.networking;
  */
 public class Data
 {
-    @lombok.Data
     public static class BeaconPacket
     {
         private String ipAddress;
         private String friendlyName;
+        private int count;
     }
 }
