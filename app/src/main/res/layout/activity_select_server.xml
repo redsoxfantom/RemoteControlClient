@@ -9,4 +9,27 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.csc8570.remotecontrolclient.SelectServerActivity">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search For Servers"
+        android:id="@+id/ServerSearchButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="ServerSearchClick" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/FoundServersBox"
+        android:layout_below="@+id/ServerSearchButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/ServerSearchButton"
+        android:layout_alignEnd="@+id/ServerSearchButton" />
 </RelativeLayout>

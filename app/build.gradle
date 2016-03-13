@@ -4,6 +4,11 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
 
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+
     defaultConfig {
         applicationId "com.csc8570.remotecontrolclient"
         minSdkVersion 14
@@ -23,6 +28,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile files('libs/jackson-databind-2.7.2.jar')
-    provided "org.projectlombok:lombok:1.16.8"
+    compile 'com.fasterxml.jackson.core:jackson-core:2.4.1'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.4.1'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.4.1'
 }

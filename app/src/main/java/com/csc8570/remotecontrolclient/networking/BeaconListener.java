@@ -3,10 +3,16 @@ package com.csc8570.remotecontrolclient.networking;
 import android.os.*;
 import android.util.Log;
 
+import com.csc8570.remotecontrolclient.Interfaces.IBeaconReceiver;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Tom on 3/13/2016.
@@ -14,10 +20,12 @@ import java.nio.charset.StandardCharsets;
 public class BeaconListener
 {
     volatile boolean receiveBeacon;
+    IBeaconReceiver receiver;
 
-    public  BeaconListener()
+    public  BeaconListener(IBeaconReceiver receiver)
     {
         receiveBeacon = false;
+        this.receiver = receiver;
     }
 
     public void startListening()
@@ -26,10 +34,51 @@ public class BeaconListener
         new Thread(new BeaconListenThread()).start();
     }
 
+    public void stopListening()
+    {
+        receiveBeacon = false;
+    }
+
+    /**
+     * Stores the current message count (i.e, the count of the last message received
+     * and the number of concurrent messages received for an IP address
+     */
+    private class CountIncrementTuple
+    {
+        private int lastMsgCount;
+        private int numConcurrentMsgs;
+
+        public int getLastMsgCount() {
+            return lastMsgCount;
+        }
+
+        public void setLastMsgCount(int lastMsgCount) {
+            this.lastMsgCount = lastMsgCount;
+        }
+
+        public int getNumConcurrentMsgs() {
+            return numConcurrentMsgs;
+        }
+
+        public void setNumConcurrentMsgs(int numConcurrentMsgs) {
+            this.numConcurrentMsgs = numConcurrentMsgs;
+        }
+    }
+
     private class BeaconListenThread implements Runnable
     {
         MulticastSocket client;
         InetAddress beaconAddress;
+        // Maps an IP address to the count of messages received and the current count
+        HashMap<String,CountIncrementTuple> msgDictionary;
+        // List of servers that have already been validated
+        Set<String> validServers;
+
+        public BeaconListenThread()
+        {
+            msgDictionary = new HashMap<>();
+            validServers = new HashSet<>();
+        }
 
         @Override
         public void run()
@@ -38,19 +87,57 @@ public class BeaconListener
             try
             {
                 client = new MulticastSocket(50000);
+                client.setSoTimeout(3000);
                 beaconAddress = InetAddress.getByName("224.0.0.1");
                 client.joinGroup(beaconAddress);
                 byte[] buffer = new byte[512];
                 DatagramPacket packet = new DatagramPacket(buffer,buffer.length);
+                ObjectMapper mapper = new ObjectMapper();
 
+                Log.i("Networking", "Listening for beacon");
                 while (receiveBeacon)
                 {
-                    Log.i("Networking", "Listening for beacon");
-                    client.receive(packet);
+                    try
+                    {
+                        client.receive(packet);
+                        String packetBytes = new String(packet.getData()).trim();
+                        Data.BeaconPacket beaconData = mapper.readValue(packetBytes, Data.BeaconPacket.class);
 
-                    String packetBytes = new String(packet.getData(), StandardCharsets.US_ASCII);
-                    Log.i("Networking",packetBytes);
-                    Thread.sleep(2500);
+                        Log.d("Networking", "Got message: "+beaconData.toString());
+                        // Only do beacon validation if the server has not already been validated
+                        if(!validServers.contains(beaconData.getIpAddress()))
+                        {
+                            if (!msgDictionary.containsKey(beaconData.getIpAddress())) {
+                                CountIncrementTuple tuple = new CountIncrementTuple();
+                                tuple.setLastMsgCount(beaconData.getCount());
+                                tuple.setNumConcurrentMsgs(1);
+                                msgDictionary.put(beaconData.getIpAddress(), tuple);
+                            } else {
+                                // We got this IP address before. Make sure the count incremented by one.
+                                // If we got three successful increments, than this is a valid server
+                                CountIncrementTuple tuple = msgDictionary.get(beaconData.getIpAddress());
+                                if (beaconData.getCount() == tuple.getLastMsgCount() + 1) {
+                                    if (tuple.getNumConcurrentMsgs() == 3) {
+                                        Log.i("Networking", "Got three concurrent messages for IP address " + beaconData.getIpAddress());
+                                        receiver.addServer(beaconData.getIpAddress(), beaconData.getFriendlyName());
+                                        validServers.add(beaconData.getIpAddress());
+                                    } else {
+                                        Log.d("Networking", "Got concurrent message for IP address " + beaconData.getIpAddress());
+                                        tuple.setNumConcurrentMsgs(tuple.getNumConcurrentMsgs() + 1);
+                                        tuple.setLastMsgCount(beaconData.getCount());
+                                    }
+                                } else {
+                                    Log.w("Networking", "Message did not have an increment of one! Resetting counter");
+                                    tuple.setNumConcurrentMsgs(1);
+                                    tuple.setLastMsgCount(beaconData.getCount());
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.e("Networking","Error while listening for beacon packet",ex);
+                    }
                 }
             }
             catch(Exception ex)
