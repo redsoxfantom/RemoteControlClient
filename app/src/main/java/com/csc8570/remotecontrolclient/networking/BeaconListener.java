@@ -15,15 +15,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Listens for beacon packets from the server
+ *
  * Created by Tom on 3/13/2016.
  */
 public class BeaconListener
 {
     volatile boolean receiveBeacon;
+    Runnable listener;
     IBeaconReceiver receiver;
+    MulticastSocket client;
+    InetAddress beaconAddress;
 
     public  BeaconListener(IBeaconReceiver receiver)
     {
+        listener = new BeaconListenThread();
         receiveBeacon = false;
         this.receiver = receiver;
     }
@@ -31,12 +37,20 @@ public class BeaconListener
     public void startListening()
     {
         receiveBeacon = true;
-        new Thread(new BeaconListenThread()).start();
+        new Thread(listener).start();
     }
 
     public void stopListening()
     {
         receiveBeacon = false;
+        try {
+            client.leaveGroup(beaconAddress);
+            client.close();
+        }
+        catch(Exception ex)
+        {
+            Log.e("Networking","Failed to close client",ex);
+        }
     }
 
     /**
@@ -67,8 +81,6 @@ public class BeaconListener
 
     private class BeaconListenThread implements Runnable
     {
-        MulticastSocket client;
-        InetAddress beaconAddress;
         // Maps an IP address to the count of messages received and the current count
         HashMap<String,CountIncrementTuple> msgDictionary;
         // List of servers that have already been validated

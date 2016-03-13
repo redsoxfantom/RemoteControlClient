@@ -14,9 +14,11 @@ public class SelectServerActivity extends AppCompatActivity implements IBeaconRe
     BeaconListener listener;
     Button serverSearchButton;
     TextView foundServersBox;
+    boolean searchForServers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        searchForServers = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_server);
 
@@ -28,7 +30,18 @@ public class SelectServerActivity extends AppCompatActivity implements IBeaconRe
     // Called when the user requests a search for active servers
     public void ServerSearchClick(View v)
     {
-        listener.startListening();
+        if(searchForServers)
+        {
+            listener.startListening();
+            serverSearchButton.setText("Stop Searching For Servers");
+            searchForServers = false;
+        }
+        else
+        {
+            listener.stopListening();
+            serverSearchButton.setText("Search For Servers");
+            searchForServers = true;
+        }
     }
 
     @Override
