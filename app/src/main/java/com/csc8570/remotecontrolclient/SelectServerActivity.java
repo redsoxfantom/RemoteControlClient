@@ -1,8 +1,10 @@
 package com.csc8570.remotecontrolclient;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -37,6 +39,21 @@ public class SelectServerActivity extends AppCompatActivity implements IBeaconRe
         serverButtonsLayout = (LinearLayout)findViewById(R.id.FoundServersLayout);
     }
 
+    // Called when the user selects one of the found servers
+    public void ServerSelectClick(View v)
+    {
+        String ipAddress = ((TextView)v.findViewById(R.id.ServerIPAddress)).getText().toString();
+        String friendlyName = ((TextView)v.findViewById(R.id.ServerFriendlyName)).getText().toString();
+        Log.i("SelectServer", "Attempting to connect to server " + ipAddress);
+
+        listener.stopListening();
+        Intent serverConnectionIntent = new Intent(this,ConnectToServerActivity.class);
+        serverConnectionIntent.putExtra("ipAddress",ipAddress);
+        serverConnectionIntent.putExtra("friendlyName",friendlyName);
+
+        startActivity(serverConnectionIntent);
+    }
+
     // Called when the user requests a search for active servers
     public void ServerSearchClick(View v)
     {
@@ -60,7 +77,7 @@ public class SelectServerActivity extends AppCompatActivity implements IBeaconRe
     public void addServer(final String ipAddress, final String friendlyName)
     {
         //this.runOnUiThread(new FoundServerHandler(this.getApplicationContext(),friendlyName,ipAddress));
-        this.runOnUiThread(new HandleAddServer(friendlyName,ipAddress,getApplicationContext()));
+        this.runOnUiThread(new HandleAddServer(friendlyName,ipAddress,getBaseContext()));
     }
 
     @Override
