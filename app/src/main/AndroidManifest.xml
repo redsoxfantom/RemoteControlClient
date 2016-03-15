@@ -17,16 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ConnectToServerActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_connect_to_server"
-            android:parentActivityName=".SelectServerActivity"
-            android:theme="@style/FullscreenTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.csc8570.remotecontrolclient.SelectServerActivity" />
-        </activity>
+        <activity android:name=".ConnectToServerActivity"></activity>
     </application>
 
 </manifest>
