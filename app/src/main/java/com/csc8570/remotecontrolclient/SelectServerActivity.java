@@ -46,7 +46,7 @@ public class SelectServerActivity extends AppCompatActivity implements IBeaconRe
         String friendlyName = ((TextView)v.findViewById(R.id.ServerFriendlyName)).getText().toString();
         Log.i("SelectServer", "Attempting to connect to server " + ipAddress);
 
-        listener.stopListening();
+        stopListening();
         Intent serverConnectionIntent = new Intent(this,ConnectToServerActivity.class);
         serverConnectionIntent.putExtra("ipAddress",ipAddress);
         serverConnectionIntent.putExtra("friendlyName",friendlyName);
@@ -59,18 +59,28 @@ public class SelectServerActivity extends AppCompatActivity implements IBeaconRe
     {
         if(searchForServers)
         {
-            listener.startListening();
-            serverSearchButton.setText("Stop Searching For Servers");
-            serverSearchBar.setVisibility(View.VISIBLE);
-            searchForServers = false;
+            startListening();
         }
         else
         {
-            listener.stopListening();
-            serverSearchButton.setText("Search For Servers");
-            serverSearchBar.setVisibility(View.INVISIBLE);
-            searchForServers = true;
+            stopListening();
         }
+    }
+
+    private void stopListening()
+    {
+        listener.stopListening();
+        serverSearchButton.setText("Search For Servers");
+        serverSearchBar.setVisibility(View.INVISIBLE);
+        searchForServers = true;
+    }
+
+    private void startListening()
+    {
+        listener.startListening();
+        serverSearchButton.setText("Stop Searching For Servers");
+        serverSearchBar.setVisibility(View.VISIBLE);
+        searchForServers = false;
     }
 
     @Override
