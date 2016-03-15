@@ -30,8 +30,7 @@ public class ConnectionNegotiator
                 try
                 {
                     InetAddress addr = InetAddress.getByName(ipAddress);
-                    server = new Socket();
-                    server.connect(new InetSocketAddress(addr,50001));
+                    server = new Socket(addr,50001);
 
                     server.getOutputStream().write("TEST".getBytes());
                 }
