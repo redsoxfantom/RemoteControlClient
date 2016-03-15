@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.csc8570.remotecontrolclient.networking.ConnectionNegotiator;
+
 public class ConnectToServerActivity extends AppCompatActivity {
 
     ProgressBar serverConnectionProgress;
     TextView serverConnectionText;
     String ipAddress;
     String friendlyName;
+    ConnectionNegotiator connectionNegotiator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,5 +28,10 @@ public class ConnectToServerActivity extends AppCompatActivity {
         friendlyName = bundle.getString(ActivityConstants.FRIENDLY_NAME_EXTRA);
 
         serverConnectionText.setText(String.format("Connecting to %s (IP: %s)",friendlyName,ipAddress));
+        serverConnectionProgress.setIndeterminate(false);
+        serverConnectionProgress.incrementProgressBy(33);
+
+        connectionNegotiator = new ConnectionNegotiator(ipAddress);
+        connectionNegotiator.Negotiate();
     }
 }
