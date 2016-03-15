@@ -9,6 +9,8 @@ public class ConnectToServerActivity extends AppCompatActivity {
 
     ProgressBar serverConnectionProgress;
     TextView serverConnectionText;
+    String ipAddress;
+    String friendlyName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,5 +19,8 @@ public class ConnectToServerActivity extends AppCompatActivity {
 
         serverConnectionProgress = (ProgressBar)findViewById(R.id.ServerConnectionStatusBar);
         serverConnectionText = (TextView)findViewById(R.id.ServerConnectionStatusText);
+
+        ipAddress = savedInstanceState.getString(ActivityConstants.IP_ADDRESS_EXTRA);
+        friendlyName = savedInstanceState.getString(ActivityConstants.FRIENDLY_NAME_EXTRA);
     }
 }

@@ -48,8 +48,8 @@ public class SelectServerActivity extends AppCompatActivity implements IBeaconRe
 
         stopListening();
         Intent serverConnectionIntent = new Intent(this,ConnectToServerActivity.class);
-        serverConnectionIntent.putExtra("ipAddress",ipAddress);
-        serverConnectionIntent.putExtra("friendlyName",friendlyName);
+        serverConnectionIntent.putExtra(ActivityConstants.IP_ADDRESS_EXTRA,ipAddress);
+        serverConnectionIntent.putExtra(ActivityConstants.FRIENDLY_NAME_EXTRA,friendlyName);
 
         startActivity(serverConnectionIntent);
     }
