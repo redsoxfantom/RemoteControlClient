@@ -20,7 +20,10 @@ public class ConnectToServerActivity extends AppCompatActivity {
         serverConnectionProgress = (ProgressBar)findViewById(R.id.ServerConnectionStatusBar);
         serverConnectionText = (TextView)findViewById(R.id.ServerConnectionStatusText);
 
-        ipAddress = savedInstanceState.getString(ActivityConstants.IP_ADDRESS_EXTRA);
-        friendlyName = savedInstanceState.getString(ActivityConstants.FRIENDLY_NAME_EXTRA);
+        Bundle bundle = getIntent().getExtras();
+        ipAddress = bundle.getString(ActivityConstants.IP_ADDRESS_EXTRA);
+        friendlyName = bundle.getString(ActivityConstants.FRIENDLY_NAME_EXTRA);
+
+        serverConnectionText.setText(String.format("Connecting to %s (IP: %s)",friendlyName,ipAddress));
     }
 }
