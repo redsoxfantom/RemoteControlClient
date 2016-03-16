@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.csc8570.remotecontrolclient.Interfaces.IConnectionReceiver;
 import com.csc8570.remotecontrolclient.networking.ConnectionNegotiator;
+import com.csc8570.remotecontrolclient.networking.Data;
 
-public class ConnectToServerActivity extends AppCompatActivity {
+public class ConnectToServerActivity extends AppCompatActivity implements IConnectionReceiver {
 
     ProgressBar serverConnectionProgress;
     TextView serverConnectionText;
@@ -29,9 +31,31 @@ public class ConnectToServerActivity extends AppCompatActivity {
 
         serverConnectionText.setText(String.format("Connecting to %s (IP: %s)",friendlyName,ipAddress));
         serverConnectionProgress.setIndeterminate(false);
-        serverConnectionProgress.incrementProgressBy(33);
+        serverConnectionProgress.incrementProgressBy(50);
 
         connectionNegotiator = new ConnectionNegotiator(ipAddress);
-        connectionNegotiator.Negotiate();
+        connectionNegotiator.Negotiate(this);
+    }
+
+    @Override
+    public void gotConnectionResponse(Data.ConnectionResponse response) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                serverConnectionProgress.setProgress(100);
+                serverConnectionText.setText("Successfully connected!");
+            }
+        });
+    }
+
+    @Override
+    public void connectionFailed(final Exception ex) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                serverConnectionProgress.setIndeterminate(true);
+                serverConnectionText.setText(String.format("ERROR: Failed to connect to %s! (%s)",friendlyName,ex.getMessage()));
+            }
+        });
     }
 }

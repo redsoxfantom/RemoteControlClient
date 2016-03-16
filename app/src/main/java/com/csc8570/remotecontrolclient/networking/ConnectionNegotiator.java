@@ -2,6 +2,7 @@ package com.csc8570.remotecontrolclient.networking;
 
 import android.util.Log;
 
+import com.csc8570.remotecontrolclient.Interfaces.IConnectionReceiver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
@@ -27,7 +28,7 @@ public class ConnectionNegotiator
         this.ipAddress = ipAddress;
     }
 
-    public void Negotiate()
+    public void Negotiate(final IConnectionReceiver receiver)
     {
         new Thread(new Runnable() {
             @Override
@@ -41,10 +42,12 @@ public class ConnectionNegotiator
                     // Read the connection response from the server
                     String resp = input.readLine();
                     Data.ConnectionResponse serverResponse = mapper.readValue(resp, Data.ConnectionResponse.class);
+                    receiver.gotConnectionResponse(serverResponse);
                 }
                 catch(Exception ex)
                 {
                     Log.e("networking","Failed to open connection negotiator",ex);
+                    receiver.connectionFailed(ex);
                 }
             }
         }).start();
