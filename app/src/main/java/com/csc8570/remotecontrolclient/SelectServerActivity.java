@@ -81,8 +81,8 @@ public class SelectServerActivity extends AppCompatActivity implements IBeaconRe
             .setPositiveButton("Connect", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    IpEditText text = (IpEditText)ipAddressView.findViewById(R.id.IpInputEditText);
-                    startServerConnection(text.getAddress(),text.getAddress());
+                    //IpEditText text = (IpEditText)ipAddressView.findViewById(R.id.IpAddressBox);
+                    //startServerConnection(text.getAddress(),text.getAddress());
                 }
             })
             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
