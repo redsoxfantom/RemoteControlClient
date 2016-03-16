@@ -1,6 +1,8 @@
 package com.csc8570.remotecontrolclient;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +44,10 @@ public class SelectServerActivity extends AppCompatActivity implements IBeaconRe
         String friendlyName = ((TextView)v.findViewById(R.id.ServerFriendlyName)).getText().toString();
         Log.i("SelectServer", "Attempting to connect to server " + ipAddress);
 
+        startServerConnection(ipAddress, friendlyName);
+    }
+
+    private void startServerConnection(String ipAddress, String friendlyName) {
         stopListening();
         Intent serverConnectionIntent = new Intent(this,ConnectToServerActivity.class);
         serverConnectionIntent.putExtra(ActivityConstants.IP_ADDRESS_EXTRA,ipAddress);
@@ -66,7 +72,25 @@ public class SelectServerActivity extends AppCompatActivity implements IBeaconRe
     // Called when the user opts to manually input a server IP address
     public void manualServerInputClicked(View v)
     {
+        LayoutInflater inflater = getLayoutInflater();
+        AlertDialog.Builder bldr = new AlertDialog.Builder(this);
+        bldr.setTitle("Input Server IP")
+            .setView(inflater.inflate(R.layout.dialog_input_server_ip,null))
+            .setPositiveButton("Connect", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
+                }
+            })
+            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+        AlertDialog dialog = bldr.create();
+        dialog.show();
     }
 
     private void stopListening()
