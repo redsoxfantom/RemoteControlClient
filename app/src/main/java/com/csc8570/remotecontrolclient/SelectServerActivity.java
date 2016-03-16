@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.csc8570.remotecontrolclient.interfaces.IBeaconReceiver;
 import com.csc8570.remotecontrolclient.networking.BeaconListener;
+import com.csc8570.remotecontrolclient.views.IpEditText;
 
 public class SelectServerActivity extends AppCompatActivity implements IBeaconReceiver {
 
@@ -73,13 +74,15 @@ public class SelectServerActivity extends AppCompatActivity implements IBeaconRe
     public void manualServerInputClicked(View v)
     {
         LayoutInflater inflater = getLayoutInflater();
+        final View ipAddressView = inflater.inflate(R.layout.dialog_input_server_ip,null);
         AlertDialog.Builder bldr = new AlertDialog.Builder(this);
         bldr.setTitle("Input Server IP")
-            .setView(inflater.inflate(R.layout.dialog_input_server_ip,null))
+            .setView(ipAddressView)
             .setPositiveButton("Connect", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
+                    IpEditText text = (IpEditText)ipAddressView.findViewById(R.id.IpInputEditText);
+                    startServerConnection(text.getAddress(),text.getAddress());
                 }
             })
             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
