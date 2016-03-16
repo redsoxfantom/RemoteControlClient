@@ -36,19 +36,6 @@ public class Data
         }
     }
 
-    public static class ConnectionRequest
-    {
-        private String ipAddress;
-
-        public String getIpAddress() {
-            return ipAddress;
-        }
-
-        public void setIpAddress(String ipAddress) {
-            this.ipAddress = ipAddress;
-        }
-    }
-
     public static class BeaconPacket
     {
         private String ipAddress;
