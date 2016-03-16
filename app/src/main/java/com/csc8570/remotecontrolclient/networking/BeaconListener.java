@@ -2,7 +2,7 @@ package com.csc8570.remotecontrolclient.networking;
 
 import android.util.Log;
 
-import com.csc8570.remotecontrolclient.interfaces.IBeaconReceiver;
+import com.csc8570.remotecontrolclient.Interfaces.IBeaconReceiver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.DatagramPacket;

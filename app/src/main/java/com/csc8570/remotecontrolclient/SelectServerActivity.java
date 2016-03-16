@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.csc8570.remotecontrolclient.interfaces.IBeaconReceiver;
+import com.csc8570.remotecontrolclient.Interfaces.IBeaconReceiver;
 import com.csc8570.remotecontrolclient.networking.BeaconListener;
 import com.csc8570.remotecontrolclient.views.IpEditText;
 
