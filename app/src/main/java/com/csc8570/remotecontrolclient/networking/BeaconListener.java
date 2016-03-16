@@ -1,15 +1,13 @@
 package com.csc8570.remotecontrolclient.networking;
 
-import android.os.*;
 import android.util.Log;
 
-import com.csc8570.remotecontrolclient.Interfaces.IBeaconReceiver;
+import com.csc8570.remotecontrolclient.interfaces.IBeaconReceiver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;

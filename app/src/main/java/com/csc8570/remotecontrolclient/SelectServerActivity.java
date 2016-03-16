@@ -7,17 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.csc8570.remotecontrolclient.Interfaces.IBeaconReceiver;
+import com.csc8570.remotecontrolclient.interfaces.IBeaconReceiver;
 import com.csc8570.remotecontrolclient.networking.BeaconListener;
-
-import java.util.ArrayList;
 
 public class SelectServerActivity extends AppCompatActivity implements IBeaconReceiver {
 
