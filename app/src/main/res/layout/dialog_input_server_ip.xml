@@ -1,64 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <EditText
-            android:layout_width="wrap_content"
+        <com.csc8570.remotecontrolclient.views.IpEditText
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/editText"
+            android:id="@+id/ip_addr_0_8"
             android:layout_weight="1" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="."
-            android:id="@+id/textView" />
+            android:id="@+id/ip_separator"
+            android:layout_gravity="right"
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
-        <EditText
-            android:layout_width="wrap_content"
+        <com.csc8570.remotecontrolclient.views.IpEditText
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/editText2"
+            android:id="@+id/ip_addr_8_16"
             android:layout_weight="1" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="."
-            android:id="@+id/textView2" />
+            android:id="@+id/ip_seperator_1"
+            android:layout_gravity="right"
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
-        <EditText
-            android:layout_width="wrap_content"
+        <com.csc8570.remotecontrolclient.views.IpEditText
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/editText3"
+            android:id="@+id/ip_addr_16_24"
             android:layout_weight="1" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="."
-            android:id="@+id/textView3" />
+            android:id="@+id/ip_seperator_2"
+            android:layout_gravity="right"
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
-        <EditText
-            android:layout_width="wrap_content"
+        <com.csc8570.remotecontrolclient.views.IpEditText
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/editText4"
+            android:id="@+id/ip_addr_24_32"
             android:layout_weight="1" />
     </LinearLayout>
 

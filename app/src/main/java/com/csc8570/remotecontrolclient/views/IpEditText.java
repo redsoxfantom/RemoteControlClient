@@ -18,7 +18,7 @@ import java.net.InetAddress;
 /**
  * Created by Tom on 3/15/2016.
  */
-public class IpEditText extends LinearLayout
+public class IpEditText extends EditText
 {
     public IpEditText(Context context) {
         super(context);
@@ -30,10 +30,5 @@ public class IpEditText extends LinearLayout
 
     public IpEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    public String getAddress()
-    {
-        return "";
     }
 }
