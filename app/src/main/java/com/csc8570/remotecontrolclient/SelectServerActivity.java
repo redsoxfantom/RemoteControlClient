@@ -67,6 +67,12 @@ public class SelectServerActivity extends AppCompatActivity implements IBeaconRe
         }
     }
 
+    // Called when the user opts to manually input a server IP address
+    public void manualServerInputClicked(View v)
+    {
+
+    }
+
     private void stopListening()
     {
         listener.stopListening();

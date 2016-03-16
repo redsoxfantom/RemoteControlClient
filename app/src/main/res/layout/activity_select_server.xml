@@ -28,19 +28,36 @@
         android:layout_below="@+id/ServerSearchButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/FoundServersLayout">
+        android:id="@+id/FoundServersLayout"
+        android:weightSum="1">
 
         <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/ServerSearchProgressBar"
-            android:visibility="invisible"
-            android:indeterminate="true"
-            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_gravity="center_horizontal" />
+            android:max="100"
+            android:progress="0"
+            android:indeterminate="true"
+            android:visibility="invisible" />
+
     </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manually Input Server IP"
+        android:id="@+id/ManualServerInput"
+        android:textAlignment="center"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/FoundServersLayout"
+        android:layout_alignEnd="@+id/FoundServersLayout"
+        android:onClick="manualServerInputClicked" />
 
 </RelativeLayout>
