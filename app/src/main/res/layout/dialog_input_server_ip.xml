@@ -16,7 +16,7 @@
             android:id="@+id/ip_addr_0_8"
             android:layout_weight="1"
             android:inputType="number"
-            custom:nextBox="@id/ip_addr_8_16"/>
+            custom:nextBox="@+id/ip_addr_8_16"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
             android:id="@+id/ip_addr_8_16"
             android:layout_weight="1"
             android:inputType="number"
-            custom:nextBox="@id/ip_addr_16_24"/>
+            custom:nextBox="@+id/ip_addr_16_24"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
             android:id="@+id/ip_addr_16_24"
             android:layout_weight="1"
             android:inputType="number"
-            custom:nextBox="@id/ip_addr_0_8"/>
+            custom:nextBox="@+id/ip_addr_24_32"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -66,7 +66,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/ip_addr_24_32"
             android:layout_weight="1"
-            android:inputType="number" />
+            android:inputType="number"
+            custom:nextBox="@+id/ip_addr_0_8"/>
     </LinearLayout>
 
 </LinearLayout>
