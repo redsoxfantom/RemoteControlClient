@@ -21,11 +21,13 @@ public class ConnectionNegotiator
     private String ipAddress;
     private Socket client;
     private ObjectMapper mapper;
+    private BufferedReader input;
 
     public ConnectionNegotiator(String ipAddress)
     {
         mapper = new ObjectMapper();
         this.ipAddress = ipAddress;
+        input = null;
     }
 
     public void Negotiate(final IConnectionReceiver receiver)
@@ -37,10 +39,11 @@ public class ConnectionNegotiator
                 {
                     InetAddress addr = InetAddress.getByName(ipAddress);
                     client = new Socket(addr,50001);
-                    BufferedReader input = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                    input = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
                     // Read the connection response from the server
                     String resp = input.readLine();
+                    Log.i("networking","Got client connection response"+resp);
                     Data.ConnectionResponse serverResponse = mapper.readValue(resp, Data.ConnectionResponse.class);
                     receiver.gotConnectionResponse(serverResponse);
                 }
@@ -48,6 +51,19 @@ public class ConnectionNegotiator
                 {
                     Log.e("networking","Failed to open connection negotiator",ex);
                     receiver.connectionFailed(ex);
+                }
+                finally
+                {
+                    if(input != null)
+                    {
+                        try {
+                            input.close();
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.e("networking","Error closing socket input",ex);
+                        }
+                    }
                 }
             }
         }).start();
