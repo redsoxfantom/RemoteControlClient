@@ -21,6 +21,8 @@ import com.csc8570.remotecontrolclient.R;
 import java.net.InetAddress;
 
 /**
+ * Text box that encapsulates a segment of an IP address
+ *
  * Created by Tom on 3/15/2016.
  */
 public class IpEditText extends EditText
@@ -93,10 +95,15 @@ public class IpEditText extends EditText
             String currentText = s.toString();
             if(currentText.length() >= 3)
             {
-                int currPos = view.getSelectionEnd();
-
                 s.clear();
                 currentText = currentText.substring(0,3);
+                int currVal = Integer.parseInt(currentText);
+                if(currVal > 255)
+                {
+                    currentText = "255";
+                    Toast.makeText(view.getContext(),"IP Address segment cannot be greater than 255",Toast.LENGTH_LONG).show();
+                }
+
                 s.append(currentText);
 
                 nextBox.requestFocus();
