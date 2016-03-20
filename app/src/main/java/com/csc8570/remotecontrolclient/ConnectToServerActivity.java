@@ -2,12 +2,18 @@ package com.csc8570.remotecontrolclient;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.csc8570.remotecontrolclient.Interfaces.IConnectionReceiver;
 import com.csc8570.remotecontrolclient.networking.ConnectionNegotiator;
 import com.csc8570.remotecontrolclient.networking.Data;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.net.Socket;
 
 public class ConnectToServerActivity extends AppCompatActivity implements IConnectionReceiver {
 
@@ -38,7 +44,7 @@ public class ConnectToServerActivity extends AppCompatActivity implements IConne
     }
 
     @Override
-    public void gotConnectionResponse(Data.ConnectionResponse response) {
+    public void gotConnectionResponse(Data.ConnectionResponse response, Socket client) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

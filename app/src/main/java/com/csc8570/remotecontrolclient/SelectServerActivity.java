@@ -81,8 +81,16 @@ public class SelectServerActivity extends AppCompatActivity implements IBeaconRe
             .setPositiveButton("Connect", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //IpEditText text = (IpEditText)ipAddressView.findViewById(R.id.IpAddressBox);
-                    //startServerConnection(text.getAddress(),text.getAddress());
+                    IpEditText ip_0_8 = (IpEditText)ipAddressView.findViewById(R.id.ip_addr_0_8);
+                    IpEditText ip_8_16 = (IpEditText)ipAddressView.findViewById(R.id.ip_addr_8_16);
+                    IpEditText ip_16_24 = (IpEditText)ipAddressView.findViewById(R.id.ip_addr_16_24);
+                    IpEditText ip_24_32 = (IpEditText)ipAddressView.findViewById(R.id.ip_addr_24_32);
+
+                    String ipAddr = String.format("%s.%s.%s.%s",ip_0_8.getText().toString(),
+                                                                ip_8_16.getText().toString(),
+                                                                ip_16_24.getText().toString(),
+                                                                ip_24_32.getText().toString());
+                    startServerConnection(ipAddr,ipAddr);
                 }
             })
             .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

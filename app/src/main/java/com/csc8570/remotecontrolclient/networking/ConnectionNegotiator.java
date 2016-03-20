@@ -6,7 +6,9 @@ import com.csc8570.remotecontrolclient.Interfaces.IConnectionReceiver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -22,6 +24,7 @@ public class ConnectionNegotiator
     private Socket client;
     private ObjectMapper mapper;
     private BufferedReader input;
+    private BufferedWriter output;
 
     public ConnectionNegotiator(String ipAddress)
     {
@@ -45,25 +48,22 @@ public class ConnectionNegotiator
                     String resp = input.readLine();
                     Log.i("networking","Got client connection response"+resp);
                     Data.ConnectionResponse serverResponse = mapper.readValue(resp, Data.ConnectionResponse.class);
-                    receiver.gotConnectionResponse(serverResponse);
+                    receiver.gotConnectionResponse(serverResponse,client);
                 }
                 catch(Exception ex)
                 {
                     Log.e("networking","Failed to open connection negotiator",ex);
-                    receiver.connectionFailed(ex);
-                }
-                finally
-                {
-                    if(input != null)
+                    if(client != null)
                     {
                         try {
-                            input.close();
+                            client.close();
                         }
-                        catch (Exception ex)
+                        catch (Exception e)
                         {
-                            Log.e("networking","Error closing socket input",ex);
+                            Log.e("networking","Failed to close socket",e);
                         }
                     }
+                    receiver.connectionFailed(ex);
                 }
             }
         }).start();
