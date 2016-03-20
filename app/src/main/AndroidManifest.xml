@@ -17,7 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ConnectToServerActivity"></activity>
+        <activity android:name=".ConnectToServerActivity" />
+        <activity android:name=".SendMouseCommand"></activity>
     </application>
 
 </manifest>
