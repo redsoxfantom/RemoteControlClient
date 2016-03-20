@@ -1,5 +1,6 @@
 package com.csc8570.remotecontrolclient;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,6 +53,11 @@ public class ConnectToServerActivity extends AppCompatActivity implements IConne
                 serverConnectionText.setText("Successfully connected!");
             }
         });
+
+        Intent mouseCommandIntent = new Intent(this,SendMouseCommand.class);
+        mouseCommandIntent.putExtra(ActivityConstants.FRIENDLY_NAME_EXTRA,friendlyName);
+
+        startActivity(mouseCommandIntent);
     }
 
     @Override
