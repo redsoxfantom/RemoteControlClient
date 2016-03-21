@@ -178,7 +178,7 @@ public class BeaconListener
             {
                 client = new MulticastSocket(50000);
                 client.setSoTimeout(3000);
-                beaconAddress = InetAddress.getByName("224.0.0.1");
+                beaconAddress = InetAddress.getByName("239.1.1.1");
                 client.joinGroup(beaconAddress);
                 byte[] buffer = new byte[512];
                 DatagramPacket packet = new DatagramPacket(buffer,buffer.length);
